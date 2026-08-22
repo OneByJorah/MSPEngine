@@ -22,13 +22,11 @@ Windows 10/11 provisioning and debloat utility for MSP technicians
 
 ## Features
 
-- **One-Click Setup** — Automate Windows deployment and configuration.
-- **Debloat** — Remove unnecessary Windows components and bloatware.
-- **Hardening** — Apply security best practices automatically.
-- **MSP Optimized** — Designed for managed service providers.
-- **Modular Design** — Enable/disable specific configuration modules.
-- **Logging** — Full audit trail of all changes.
-- **Silent Mode** — Run unattended for mass deployment.
+- **One-Click Setup** — Download and run the debloat script in a single step.
+- **Debloat** — Remove Xbox app packages from Windows 10/11.
+- **MSP Optimized** — Parameterized for technician workflows (`-ScriptUrl`, `-SkipDeploy`, `-TempPath`, `-ExecutionPolicy`).
+
+> More modules (hardening, network, drivers, software, updates) are planned — see [ROADMAP.md](ROADMAP.md).
 
 ## Quick Start
 
@@ -36,72 +34,50 @@ Windows 10/11 provisioning and debloat utility for MSP technicians
 git clone https://github.com/OneByJorah/MSPEngine.git
 cd MSPEngine
 
-# Run as Administrator
-.\Start-MSPEngine.ps1
+# Run as Administrator (PowerShell 5.1+)
+.\install.ps1
 ```
 
-## Modules
+Download only, without executing:
 
-| Module | Description |
-|--------|-------------|
-| **Debloat** | Remove Windows bloatware and telemetry |
-| **Security** | Apply security hardening policies |
-| **Network** | Configure network settings |
-| **Drivers** | Install/update device drivers |
-| **Software** | Deploy common applications |
-| **Updates** | Configure Windows Update policy |
+```powershell
+.\install.ps1 -SkipDeploy
+```
 
-## Configuration
+## Components
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `MODE` | `interactive` | Run mode (interactive/silent) |
-| `LOG_PATH` | `.\logs` | Log file directory |
-| `CONFIG_FILE` | `.\config.json` | Custom configuration file |
+| Component | Description |
+|-----------|-------------|
+| **install.ps1** | Entry point — downloads and executes the debloat script |
+| **debloat/MSP-Ultra-Debloat.ps1** | Debloat module — removes Xbox packages, configures services/power |
+
+### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `-ScriptUrl` | MSPEngine raw URL | Debloat script source |
+| `-SkipDeploy` | off | Download only, skip execution |
+| `-TempPath` | `$env:TEMP\debloat.ps1` | Download location |
+| `-ExecutionPolicy` | `RemoteSigned` | Execution policy for the child process |
 
 ## Project Structure
 
 ```
 MSPEngine/
-├── Start-MSPEngine.ps1     # Main entry point
-├── Modules/
-│   ├── Debloat.ps1         # Debloat module
-│   ├── Security.ps1        # Security hardening
-│   ├── Network.ps1         # Network configuration
-│   ├── Drivers.ps1         # Driver management
-│   ├── Software.ps1        # Software deployment
-│   └── Updates.ps1         # Windows Update
-├── Config/
-│   └── default.json        # Default configuration
-├── Logs/                   # Operation logs
+├── install.ps1                     # Main entry point
+├── debloat/
+│   └── MSP-Ultra-Debloat.ps1      # Debloat module
+├── docs/assets/                    # Banner & screenshot
 └── README.md
 ```
 
-## Contributing
-
-Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community standards.
-
 ## Security
 
-For security concerns, see [SECURITY.md](SECURITY.md). Please report vulnerabilities to **info@jorahone.com** — do not use public issues.
+For security concerns, see [SECURITY.md](SECURITY.md). Please report vulnerabilities to **security@jorahone.com** — do not use public issues.
 
 ## License
 
-MIT © Jhonattan L. Jimenez
-
----
-
-## 🤝 Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). All contributions follow the [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## 🔒 Security
-
-Found a vulnerability? Please follow our [Security Policy](SECURITY.md) and report privately to `security@jorahone.com`.
-
-## 📄 License
-
-[MIT License](LICENSE) © Jhonattan L. Jimenez (OneByJorah)
+MIT © Jhonattan L. Jimenez (OneByJorah)
 
 ---
 

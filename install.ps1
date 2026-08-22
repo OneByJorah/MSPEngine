@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    J1-MSP-Toolkit — Windows 10/11 Provisioning & Debloat Utility
+    MSPEngine — Windows 10/11 Provisioning & Debloat Utility
 .DESCRIPTION
     Downloads and executes the MSP-Ultra-Debloat script for Windows provisioning.
     Supports parameterized execution for remote technician scenarios.
@@ -23,7 +23,7 @@
     Download the debloat script without executing it.
 
 .EXAMPLE
-    .\install.ps1 -ScriptUrl "https://raw.githubusercontent.com/OneByJorah/J1-MSP-Toolkit/main/debloat/MSP-Ultra-Debloat.ps1"
+    .\install.ps1 -ScriptUrl "https://raw.githubusercontent.com/OneByJorah/MSPEngine/main/debloat/MSP-Ultra-Debloat.ps1"
     Run from a custom script URL.
 
 .NOTES
@@ -33,7 +33,7 @@
 #>
 
 param(
-    [string]$ScriptUrl = "https://raw.githubusercontent.com/OneByJorah/J1-MSP-Toolkit/main/debloat/MSP-Ultra-Debloat.ps1",
+    [string]$ScriptUrl = "https://raw.githubusercontent.com/OneByJorah/MSPEngine/main/debloat/MSP-Ultra-Debloat.ps1",
     [switch]$SkipDeploy,
     [string]$TempPath = "$env:TEMP\debloat.ps1",
     [string]$ExecutionPolicy = "RemoteSigned"
@@ -44,7 +44,7 @@ $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
 $psVersion = $PSVersionTable.PSVersion
 
 Write-Host "╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║        J1-MSP-Toolkit — Windows Provisioning    ║" -ForegroundColor Cyan
+Write-Host "║           MSPEngine — Windows Provisioning      ║" -ForegroundColor Cyan
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
@@ -63,6 +63,9 @@ if (-not $isAdmin) {
 }
 
 # ── Download Script ───────────────────────────────────────
+# Enforce TLS 1.2+ (Windows PowerShell 5.1 does not always negotiate it by default)
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
 Write-Host "Downloading debloat script from:" -ForegroundColor Green
 Write-Host "  $ScriptUrl"
 Write-Host "  → $TempPath"
@@ -82,9 +85,13 @@ if (-not $SkipDeploy) {
     Write-Host ""
     
     try {
-        powershell -ExecutionPolicy $ExecutionPolicy -File $TempPath -ErrorAction Stop
+        powershell -NoProfile -ExecutionPolicy $ExecutionPolicy -File $TempPath
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "✗ Execution failed (exit code $LASTEXITCODE)." -ForegroundColor Red
+            exit 1
+        }
         Write-Host ""
-        Write-Host "✓ J1-MSP-Toolkit completed successfully." -ForegroundColor Green
+        Write-Host "✓ MSPEngine completed successfully." -ForegroundColor Green
         Write-Host "  A system restart is recommended to apply all changes." -ForegroundColor Yellow
     } catch {
         Write-Host "✗ Execution failed: $_" -ForegroundColor Red
