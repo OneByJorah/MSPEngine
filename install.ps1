@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     MSPEngine — Windows 10/11 Provisioning & Debloat Utility
 .DESCRIPTION
