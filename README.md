@@ -4,37 +4,29 @@
 
 # MSPEngine
 
-Windows 10/11 provisioning and debloat utility for MSP technicians
+**Windows 10/11 provisioning & debloat utility for MSP technicians** — one-click setup, hardening, and modular configuration.
 
-![License](https://img.shields.io/badge/license-MIT-brightgreen)
-![Language](https://img.shields.io/badge/language-PowerShell-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](LICENSE)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?logo=powershell&logoColor=fff)](https://docs.microsoft.com/en-us/powershell/)
+[![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078d4?logo=windows&logoColor=fff)](https://www.microsoft.com/windows)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen)](CONTRIBUTING.md)
+
 </div>
 
 ---
 
-<p align="center">
-  <img src="docs/assets/screenshot.png" alt="MSPEngine preview" width="90%">
-</p>
+## What It Does
 
-<br>
+MSPEngine is a **production-ready Windows provisioning tool** built for Managed Service Providers. Run one script to debloat fresh Windows installs, configure services, and optimize power settings — saving hours per machine.
 
----
-
-## Features
-
-- **One-Click Setup** — Download and run the debloat script in a single step.
-- **Debloat** — Remove Xbox app packages from Windows 10/11.
-- **MSP Optimized** — Parameterized for technician workflows (`-ScriptUrl`, `-SkipDeploy`, `-TempPath`, `-ExecutionPolicy`).
-
-> More modules (hardening, network, drivers, software, updates) are planned — see [ROADMAP.md](ROADMAP.md).
+Instead of manually removing Xbox packages, tweaking services, and configuring power plans across dozens of workstations, MSPEngine does it all in a single parameterized PowerShell execution.
 
 ## Quick Start
 
 ```powershell
+# Run as Administrator (PowerShell 5.1+)
 git clone https://github.com/OneByJorah/MSPEngine.git
 cd MSPEngine
-
-# Run as Administrator (PowerShell 5.1+)
 .\install.ps1
 ```
 
@@ -44,23 +36,25 @@ Download only, without executing:
 .\install.ps1 -SkipDeploy
 ```
 
-## Components
+## Features
 
-| Component | Description |
-|-----------|-------------|
-| **install.ps1** | Entry point — downloads and executes the debloat script |
-| **debloat/MSP-Ultra-Debloat.ps1** | Debloat module — removes Xbox packages, configures services/power |
+- **One-Click Setup** — Download and run the debloat script in a single step
+- **Xbox Debloat** — Remove all Xbox app packages from Windows 10/11
+- **Service Optimization** — Configure Print Spooler and other services
+- **Power Config** — Set power plan to high performance
+- **MSP Optimized** — Parameterized for technician workflows
+- **Remote-Ready** — Script URL, temp path, and execution policy are all configurable
 
-### Parameters
+## Parameters
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `-ScriptUrl` | MSPEngine raw URL | Debloat script source |
 | `-SkipDeploy` | off | Download only, skip execution |
 | `-TempPath` | `$env:TEMP\debloat.ps1` | Download location |
-| `-ExecutionPolicy` | `RemoteSigned` | Execution policy for the child process |
+| `-ExecutionPolicy` | `RemoteSigned` | Execution policy for child process |
 
-## Project Structure
+## Architecture
 
 ```
 MSPEngine/
@@ -71,9 +65,25 @@ MSPEngine/
 └── README.md
 ```
 
+## Use Cases
+
+1. **MSP Technicians** — Provision fresh Windows installs for clients
+2. **IT Departments** — Standardize workstation builds
+3. **Home Users** — Remove bloatware from new machines
+
+## Requirements
+
+- Windows 10 or Windows 11
+- PowerShell 5.1 or later
+- Administrator privileges
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Security
 
-For security concerns, see [SECURITY.md](SECURITY.md). Please report vulnerabilities to **security@jorahone.com** — do not use public issues.
+See [SECURITY.md](SECURITY.md). Report vulnerabilities to **security@jorahone.com**.
 
 ## License
 
