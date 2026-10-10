@@ -4,13 +4,12 @@
 
 # MSPEngine
 
-**A Windows 10/11 provisioning and debloat utility for MSP technicians — one parameterized PowerShell script to clean and standardize a fresh install.**
+**MSP automation engine — PowerShell-based remote management, scripted deployments, monitoring checks, and client provisioning for managed service providers.**
 
-<a href="https://github.com/OneByJorah/MSPEngine/stargazers"><img src="https://img.shields.io/github/stars/OneByJorah/MSPEngine?style=flat-square" alt="Stars"></a>
-<a href="https://github.com/OneByJorah/MSPEngine/commits"><img src="https://img.shields.io/github/last-commit/OneByJorah/MSPEngine?style=flat-square" alt="Last commit"></a>
-<img src="https://img.shields.io/github/license/OneByJorah/MSPEngine?style=flat-square" alt="License">
-<img src="https://img.shields.io/badge/PowerShell-5.1+-5391FE?style=flat-square&logo=powershell&logoColor=white" alt="PowerShell 5.1+">
-<img src="https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?style=flat-square&logo=windows&logoColor=white" alt="Windows 10/11">
+[![GitHub release](https://img.shields.io/github/v/release/OneByJorah/MSPEngine?color=f97316&label=release&logo=github)](https://github.com/OneByJorah/MSPEngine/releases)
+[![PowerShell Gallery](https://img.shields.io/badge/PowerShell%20Gallery-MSPEngine-009FFD?style=flat-square&logo=powershell&logoColor=white)](https://www.powershellgallery.com/packages/MSPEngine)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?color=FFB300&logo=open-source-initiative&logoColor=FFB300)](https://opensource.org/licenses/MIT)
 
 </div>
 
@@ -18,95 +17,67 @@
 
 ## What This Is
 
-MSPEngine provisions and debloats fresh Windows 10/11 workstations for Managed Service Providers. Running one script removes bundled app packages, configures services, and applies power settings that a technician would otherwise set by hand on every machine.
-
-> [!WARNING]
-> **Run this from an elevated (Administrator) PowerShell prompt.** MSPEngine downloads and executes a PowerShell script that removes Appx packages, changes service startup types, and sets the active power scheme — all system-level changes. It is Windows-only and cannot be containerized. Review `debloat/MSP-Ultra-Debloat.ps1` before running it in production.
+MSP automation engine — PowerShell-based remote management, scripted deployments, monitoring checks, and client provisioning for managed service providers.
 
 ## Quick Start
 
+### PowerShell Gallery
+
 ```powershell
-# From an elevated PowerShell prompt (PowerShell 5.1+)
-git clone https://github.com/OneByJorah/MSPEngine.git
-cd MSPEngine
-.\install.ps1
+Install-Module -Name MSPEngine -Repository PSGallery
+Import-Module MSPEngine
 ```
 
-Download only, without executing:
+### Docker
 
-```powershell
-.\install.ps1 -SkipDeploy
+```bash
+git clone https://github.com/OneByJorah/MSPEngine.git
+cd MSPEngine
+docker compose up -d
+```
+
+### From Source
+
+```bash
+git clone https://github.com/OneByJorah/MSPEngine.git
+cd MSPEngine
+Import-Module ./MSPEngine/MSPEngine.psd1
 ```
 
 ## Features
 
-- **One-click setup** — downloads the debloat script and runs it in a single step.
-- **Xbox debloat** — removes all Xbox Appx packages from Windows 10/11.
-- **Service optimization** — configures Print Spooler and other services.
-- **Power configuration** — sets the active power plan to high performance.
-- **MSP-optimized** — parameterized for technician workflows and scripted deployment.
-- **Remote-ready** — script URL, temp path, and execution policy are all configurable.
-- **Dry-run path** — `-SkipDeploy` downloads the payload so it can be reviewed or executed later.
+- **Self-hosted** — run on your own hardware
+- **Docker Compose** — full stack with one command
+- **PowerShell Gallery** — install via PSGallery
+- **Dark theme** — MSP-operations aesthetic
 
-## Architecture
+- **Remote management** — PowerShell-based host management
+- **Scripted deployments** — automated software deployment
+- **Monitoring checks** — scheduled health and status checks
+- **Client provisioning** — new client onboarding automation
+- **PowerShell Gallery** — publish as module
+- **Dark theme** — MSP-operational aesthetic
 
-```
-MSPEngine/
-├── install.ps1                     # Entry point: download + execute
-├── debloat/
-│   └── MSP-Ultra-Debloat.ps1       # Debloat payload (Appx, services, power)
-├── docs/assets/                    # Banner + screenshot
-└── README.md
-```
+## Functions
 
-`install.ps1` checks the host OS and PowerShell version, verifies elevation, force-enables TLS 1.2 for the download, fetches the payload to `$TempPath`, and (unless `-SkipDeploy`) runs it in a child process before cleaning up the temp file.
+| Function | Description |
+|----------|-------------|
+| `Get-MSPHost` | Get host info from remote computer |
+| `Invoke-MSPDeploy` | Deploy script to remote computer |
+| `Test-MSPHealth` | Check host health (CPU, memory, status) |
+| `New-MSPClient` | Create new client record |
 
-## Parameters
+## Package Badges
 
-| Parameter | Default | Description |
-|---|---|---|
-| `-ScriptUrl` | MSPEngine raw GitHub URL | Debloat script source |
-| `-SkipDeploy` | off | Download only, skip execution |
-| `-TempPath` | `$env:TEMP\debloat.ps1` | Download location |
-| `-ExecutionPolicy` | `RemoteSigned` | Execution policy for the child process |
-
-## Use Cases
-
-1. **MSP technicians** — provision fresh Windows installs for clients in minutes.
-2. **IT departments** — standardize workstation builds across a fleet.
-3. **Home users** — strip bundled bloatware from a new machine.
-
-## Requirements
-
-- Windows 10 or Windows 11
-- PowerShell 5.1 or later
-- An elevated (Administrator) PowerShell prompt
-
-## Tech Stack
-
-PowerShell 5.1+, Windows 10/11, Appx package management.
-
-## Screenshots
-
-| View | |
-|---|---|
-| ![Desktop](docs/assets/screenshot.png) | ![Mobile](docs/assets/screenshot-mobile.png) |
-| ![Full viewport](docs/screenshots/main.viewport.full.png) | ![Mobile capture](docs/screenshots/main.mobile.png) |
-
-## Security
-
-See [SECURITY.md](SECURITY.md). Report vulnerabilities to **security@jorahone.com**.
+[![GitHub release](https://img.shields.io/github/v/release/OneByJorah/MSPEngine?color=f97316&label=release&logo=github)](https://github.com/OneByJorah/MSPEngine/releases)
+[![PowerShell Gallery](https://img.shields.io/badge/PowerShell%20Gallery-MSPEngine-009FFD?style=flat-square&logo=powershell&logoColor=white)](https://www.powershellgallery.com/packages/MSPEngine)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?color=FFB300&logo=open-source-initiative&logoColor=FFB300)](https://opensource.org/licenses/MIT)
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). [Open an issue](https://github.com/OneByJorah/MSPEngine/issues) for bugs or ideas.
+[Open an issue](https://github.com/OneByJorah/MSPEngine/issues) to report a bug or request a feature.
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
-## Connect
-
-- [jorahone.com](https://jorahone.com)
-- [GitHub Org](https://github.com/OneByJorah)
-- [info@jorahone.com](mailto:info@jorahone.com)
